@@ -1,16 +1,18 @@
+// turn pages when click next or prev button
+
 const pageTurnBtn = document.querySelectorAll(".nextprev-btn");
 
 pageTurnBtn.forEach((el, index) => {
     el.onclick = () => {
-        const pageTurnId = el.getAttribute("data-page");
+        const pageTurnId = el.getAttribute("data-pages");
         const pageTurn = document.getElementById(pageTurnId);
+
         if (pageTurn.classList.contains("turn")) {
             pageTurn.classList.remove("turn");
             setTimeout(() => {
                 pageTurn.style.zIndex = 20 - index;
             }, 500);
-        } 
-        else {
+        } else {
             pageTurn.classList.add("turn");
             setTimeout(() => {
                 pageTurn.style.zIndex = 20 + index;
@@ -19,37 +21,45 @@ pageTurnBtn.forEach((el, index) => {
     };
 });
 
-const pages = document.querySelectorAll(".book-page.page-right");
-const contact = document.querySelector(".btn.contact-me");
+//contact me button when click
 
-contact.onclick = () => {
+const pages = document.querySelectorAll(".book-page.page-right");
+const contactMeBtn = document.querySelector(".btn.contact-me");
+
+contactMeBtn.onclick = () => {
     pages.forEach((page, index) => {
         setTimeout(() => {
             page.classList.add("turn");
-            setInterval(() => {
+
+            setTimeout(() => {
                 page.style.zIndex = 20 + index;
             }, 500);
         }, (index + 1) * 200 + 100);
     });
 };
 
+// create reverse index function
+
 let totalPages = pages.length;
 let pageNumber = 0;
 
 function reverseIndex() {
     pageNumber--;
+
     if (pageNumber < 0) {
         pageNumber = totalPages - 1;
     }
 }
 
-const backProfilesBtn = document.querySelector(".back-profile");
-
-backProfilesBtn.onclick = () => {
+// back profile button whe click
+const backProfileBtn = document.querySelector(".back-profile");
+backProfileBtn.onclick = () => {
     pages.forEach((_, index) => {
         setTimeout(() => {
             reverseIndex();
+
             pages[pageNumber].classList.remove("turn");
+
             setTimeout(() => {
                 reverseIndex();
                 pages[pageNumber].style.zIndex = 10 + index;
@@ -58,8 +68,11 @@ backProfilesBtn.onclick = () => {
     });
 };
 
+//opening animation
 const coverRight = document.querySelector(".cover.cover-right");
-const coverLeft = document.querySelector(".book-page.page-left");
+const pageLeft = document.querySelector(".book-page.page-left");
+
+//opening animation (cover right animation)
 
 setTimeout(() => {
     coverRight.classList.add("turn");
@@ -69,12 +82,18 @@ setTimeout(() => {
     coverRight.style.zIndex = -1;
 }, 2800);
 
+//opening animation (cover left or profile page animation)
+
 setTimeout(() => {
     pageLeft.style.zIndex = 20;
 }, 3200);
+
+//opening animation (all page right animation)
+
 pages.forEach((_, index) => {
     setTimeout(() => {
         reverseIndex();
+
         pages[pageNumber].classList.remove("turn");
 
         setTimeout(() => {
